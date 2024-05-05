@@ -6,5 +6,6 @@
 !**/
 !*.json
 !.gitignore
+!*.slang
 *.yy.*
 *.tab.*

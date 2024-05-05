@@ -13,13 +13,13 @@ digit [0-9]
 
 %%
 
-"def"                     { return DEF;}
+"homie"                   { return VAR;}
 {alpha}({alpha}|{digit})* { 
                             yylval.symbol.value = createStringValue(yytext);
                             yylval.symbol.type=2;
                             return IDENTIFIER; 
                           }
-["].*["]                  { 
+\"[^\"]*\"                { 
                             yylval.symbol.value = createStringValue(yytext);
                             yylval.symbol.type=1; 
                             return STR;
@@ -29,10 +29,11 @@ digit [0-9]
                             yylval.symbol.type = 0; 
                             return NUMBER; 
                           }
+"+"                       { return ADD; }
 \/\/.*                    { ; }
 \/\*(.*\n)*.*\*\/         { ; } 
 [ \t]*                    { ; }
-.	                      { return *yytext; }                   
+.	                        { return *yytext; }                   
 
 %%
 
