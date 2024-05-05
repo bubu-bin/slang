@@ -125,7 +125,7 @@ struct Entry *search(struct HashTable *table, char *key) {
   unsigned int index = hashFunction(key) % table->size;
   struct Entry *entry = &table->entries[index];
 
-  while (entry->key != NULL) {
+  while (entry != NULL && entry->key != NULL) {
     if (strcmp(entry->key, key) == 0) {
       return entry;
     }
@@ -162,15 +162,3 @@ void *createStringValue(char *str) {
 
   return copy;
 }
-
-// int main() {
-// struct HashTable *table = createHashTable(11);
-
-// add(table, "key1", createIntValue(123), INT);
-// add(table, "key2", createIntValue(312), INT);
-// add(table, "key5", createStringValue("somevalue"), STRING);
-
-// printHashTable(table);
-
-// return 0;
-// }

@@ -1,7 +1,9 @@
 %{
     #include <stdio.h>
     #include <string.h>
+    #include <stdlib.h>
     #include "y.tab.h"
+    #include "hashtable.h"
     
     void yyerror(const char *s);
 %}
@@ -11,12 +13,26 @@ digit [0-9]
 
 %%
 
-";"                       { return SEMICOLON; }
-{alpha}({alpha}|{digit})* {  yylval.identifier = strdup(yytext); return IDENTIFIER; }
+"def"                     { return DEF;}
+{alpha}({alpha}|{digit})* { 
+                            yylval.symbol.value = createStringValue(yytext);
+                            yylval.symbol.type=2;
+                            return IDENTIFIER; 
+                          }
+["].*["]                  { 
+                            yylval.symbol.value = createStringValue(yytext);
+                            yylval.symbol.type=1; 
+                            return STR;
+                          }
+[-]?{digit}+              { 
+                            yylval.symbol.value = createIntValue(atoi(yytext)); 
+                            yylval.symbol.type = 0; 
+                            return NUMBER; 
+                          }
 \/\/.*                    { ; }
 \/\*(.*\n)*.*\*\/         { ; } 
 [ \t]*                    { ; }
-.                         { ECHO; yyerror("unexpected character"); }
+.	                      { return *yytext; }                   
 
 %%
 
