@@ -30,6 +30,9 @@ digit [0-9]
                             return NUMBER; 
                           }
 "+"                       { return ADD; }
+"-"                       { return SUBSTRACT; }
+"/"                       { return DIVIDE; }
+"*"                       { return MULTIPLY; }
 \/\/.*                    { ; }
 \/\*(.*\n)*.*\*\/         { ; } 
 [ \t]*                    { ; }
