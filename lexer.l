@@ -7,6 +7,7 @@
     
     void yyerror(const char *s);
 %}
+%option yylineno
 
 alpha [a-zA-Z]
 digit [0-9]
@@ -37,6 +38,7 @@ digit [0-9]
 \/\/.*                    { ; }
 \/\*(.*\n)*.*\*\/         { ; } 
 [ \t]*                    { ; }
+[\n]                      { ; }
 .	                        { return *yytext; }                   
 
 %%
