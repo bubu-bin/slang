@@ -20,7 +20,7 @@
 }
 
 %token <symbol> IDENTIFIER STR NUMBER
-%token VAR ADD SUBSTRACT DIVIDE MULTIPLY
+%token VAR ADD SUBSTRACT DIVIDE MULTIPLY FPRINT 
 
 %type <symbol> expr
 
@@ -31,11 +31,29 @@
 
 %%
 
-program     :
-            | program stmt
+program     : stmt ';'
+            | print ';'
+            | program stmt ';'
+            | program print ';'
             ;
- 
-stmt        : VAR IDENTIFIER '=' expr ';' {
+
+print       : FPRINT '(' expr ')' {
+                if ($3.type == 0) {
+                    printf("%d", *(int *)$3.value);
+                } else if ($3.type == 1) {
+                    printf("%s", (char *)$3.value);
+                } else if ($3.type == 2) { 
+                    struct Entry *exprVar= getVarOrThrow((char *)$3.value);
+                    
+                    if (exprVar->type == STRING) {
+                        printf("%s", (char*)exprVar->value);
+                    } else if (exprVar->type == INT) {
+                        printf("%d", *(int *)exprVar->value);
+                    }
+                }
+            }
+
+stmt        : VAR IDENTIFIER '=' expr {
                 struct Entry *var = search(tbl, $2.value);
 
                 if (var != NULL) {
@@ -200,7 +218,6 @@ int main() {
         return EXIT_FAILURE;
     } 
 
-    printHashTable(tbl);
     return EXIT_SUCCESS;
 }
 

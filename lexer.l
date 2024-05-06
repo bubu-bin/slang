@@ -14,6 +14,7 @@ digit [0-9]
 %%
 
 "homie"                   { return VAR;}
+"shout"                   { return FPRINT; }
 {alpha}({alpha}|{digit})* { 
                             yylval.symbol.value = createStringValue(yytext);
                             yylval.symbol.type=2;
