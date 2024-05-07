@@ -20,6 +20,7 @@
     struct ErrorMessage semErrors[100];
     int logCnt = 0;
     char logs[100][100];
+    char reserved[][10] = {"homie"};
 %}
 
 %union {
@@ -66,6 +67,13 @@ print       : FPRINT '(' expr ')' {
             }
 
 stmt        : VAR IDENTIFIER '=' expr {
+                for (int i = 0; i < sizeof(reserved) / sizeof(reserved[0]); i++) {
+                    if (!strcmp(reserved[i], strdup((char *)$2.value))) {
+                        logError("Variable name \"%s\" is a reserved keyword!\n", (char *)$2.value);
+                        YYABORT;
+                    }
+                }
+
                 struct Entry *var = search(tbl, $2.value);
 
                 if (var != NULL) {
