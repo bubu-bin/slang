@@ -7,5 +7,7 @@
 !*.json
 !.gitignore
 !*.slang
+!.clang-format
+!Makefile
 *.yy.*
 *.tab.*
