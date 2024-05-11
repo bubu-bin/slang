@@ -50,18 +50,18 @@ program     : stmt ';'
 
 print       : FPRINT '(' expr ')' {
                 if ($3.type == 0) {
-                    sprintf(logs[logCnt++], "%d", *(int *)$3.value);
+                    sprintf(logs[logCnt++], "%d\n", *(int *)$3.value);
                 } else if ($3.type == 1) {
-                    sprintf(logs[logCnt++], "%s", (char *)$3.value);
+                    sprintf(logs[logCnt++], "%s\n", (char *)$3.value);
                 } else if ($3.type == 2) { 
                     struct Entry *exprVar = getVar((char *)$3.value);
                     if (exprVar == NULL) 
                         YYABORT;
                     
                     if (exprVar->type == STRING) {
-                        sprintf(logs[logCnt++], "%s", (char*)exprVar->value);
+                        sprintf(logs[logCnt++], "%s\n", (char*)exprVar->value);
                     } else if (exprVar->type == INT) {
-                        sprintf(logs[logCnt++], "%d", *(int *)exprVar->value);
+                        sprintf(logs[logCnt++], "%d\n", *(int *)exprVar->value);
                     }
                 }
             }
