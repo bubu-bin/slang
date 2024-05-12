@@ -1,5 +1,5 @@
 /**
- * Illegal operations
+ * Illegal operations.
  */
 
 // Type mismatch errors: Operations between a string and a number
